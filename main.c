@@ -16,9 +16,9 @@ int main(void)
 
   printf("\nWelcome to the REVERSI GAME.\n");
 
-  initializePlayers(player1, player2);
+  initializePlayers(&player1, &player2);
 
-  initializeBoard(board);
+  initializeBoard(board, player1, player2);
 
   printBoard(board);
 
