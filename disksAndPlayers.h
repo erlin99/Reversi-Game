@@ -9,6 +9,12 @@ enum colour {
   NONE
 };
 
+//struct for linked list to store the possible choices
+typedef struct choices {
+  position choice;
+  struct choices *next;
+} choices;
+
 typedef struct position {
   int row;
   int col;
@@ -27,12 +33,12 @@ typedef struct player {
 
 void initializePlayers(player *player1, player *player2);
 
-void initializeBoard(disk board [SIZE][SIZE], player player1, player player2);
+void initializeBoard(disk board[SIZE][SIZE], player player1, player player2);
 
-void printBoard(disk board [SIZE][SIZE]);
+void printBoard(disk board[SIZE][SIZE]);
 
-// void playGame();
+void playGame(player *player1, player *player2, disk board[SIZE][SIZE]);
 
-// void finalResult()
+void finalResult(player *player1, player *player2);
 
 #endif

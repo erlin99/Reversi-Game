@@ -22,7 +22,7 @@ int main(void)
 
   printBoard(board);
 
-  //invoke a method that implements game logic
+  playGame(&player1, &player2, board); //game logic
 
-  //invoke method that prints the final result
+  finalResult(&player1, &player2); //print final result
 }

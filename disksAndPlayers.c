@@ -126,10 +126,59 @@ void printBoard(disk board[SIZE][SIZE])
   printf("\n");
 }
 
-// void playGame()
+void playGame(player1 *player1, player2 *player2, disk board[SIZE][SIZE])
 // {
 // }
-//
-// void finalResult()
-// {
-// }
+
+
+void finalResult(player *player1, player *player2)
+{
+  FILE *filePtr;//pointer to rext file
+
+  //if file cannot be created, print warning message and results to terminal
+  if ((filePtr = fopen("result.txt", "w")) == NULL)
+  {
+    printf("Text file to store result couldn't be created.\n");
+
+    printf("\n%s --> %d points.\n", player1->name, player1->points);
+    printf("%s --> %d points.\n", player2->name, player2->points);
+
+    //if player 1 has more points
+    if (player1->points > player2->points) {
+      printf("The WINNER is: %s\n", player1->name);
+    }
+    //if player 2 has more points
+    else if (player2->points > player1->points) {
+      printf("The WINNER is: %s\n", player2->name);
+    }
+    //in the case of a tie
+    else {
+      printf("It's a DRAW!\n");
+    }
+  }
+  else
+  {
+    printf("\n%s --> %d points.\n", player1->name, player1->points);
+    fprintf(filePtr, "Player 1: %s. Points: %d.\n", player1->name, player1->points);
+
+    printf("%s --> %d points.\n", player2->name, player2->points);
+    fprintf(filePtr, "Player 2: %s. Points: %d.\n", player2->name, player2->points);
+
+    //if player 1 has more points
+    if (player1->points > player2->points) {
+      printf("The WINNER is: %s\n", player1->name);
+      fprintf(filePtr, "\nThe WINNER is: %s\n", player1->name);
+    }
+    //if player 2 has more points
+    else if (player2->points > player1->points) {
+      fprintf(filePtr, "\nThe WINNER is: %s\n", player2->name);
+    }
+    //in the case of a tie
+    else {
+      printf("It's a DRAW!\n");
+      fprintf(filePtr, "\nIt's a DRAW\n");
+    }
+  }
+
+  fclose(filePtr); //close file
+}
