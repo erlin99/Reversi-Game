@@ -22,7 +22,7 @@ int main(void)
 
   printBoard(board);
 
-  playGame(&player1, &player2, board); //game logic
+  playGame(&player1, &player2, board);
 
-  finalResult(&player1, &player2); //print final result
+  finalResult(&player1, &player2); 
 }

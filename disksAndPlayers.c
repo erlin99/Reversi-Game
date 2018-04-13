@@ -59,7 +59,7 @@ void initializeBoard(disk board [SIZE][SIZE], player player1, player player2)
     {
       if(i == 3)//row 3
       {
-        if(j == 3){ //column 3
+        if(j == 3) { //column 3
           board[i][j].type = player1.type;
         }
         else if (j == 4){ //column 4
@@ -127,10 +127,12 @@ void printBoard(disk board[SIZE][SIZE])
 }
 
 void playGame(player1 *player1, player2 *player2, disk board[SIZE][SIZE])
-// {
-// }
+ {
 
+ }
+//
 
+//print final result to terminal and to text file 
 void finalResult(player *player1, player *player2)
 {
   FILE *filePtr;//pointer to rext file
@@ -181,4 +183,241 @@ void finalResult(player *player1, player *player2)
   }
 
   fclose(filePtr); //close file
+}
+
+void blackMove()
+{
+  for(i=0; i<SIZE; i++)
+  {
+    for(j=0; j<SIZE; j++)
+    {
+      //checks the board for black disks
+      if(board[i][j].type ==  BLACK)
+      {
+        //checking upwards for possible moves
+        if(board[i][j+1] == WHITE)
+        {
+          for(int l=j; j<SIZE; j++)
+          {
+            if(board[i][l].type == NONE)
+          }
+          //export i,l co-ordinates to linked list.
+          break;
+        }
+      }
+    }
+    //checking downwards for possible moves
+    if(board[i][j-1] == WHITE)
+    {
+      for(int l=j; j>=0; j--)
+      {
+        if(board[i][l].type == NONE)
+        {
+          //export i,l co-ordinates to linked list.
+          break;
+        }
+      }
+    }
+    if(board[i+1][j] == WHITE)
+    {
+      for(int l=i; l<SIZE; l++)
+      {
+        if(board[l][j].type == NONE)
+        {
+          //export i,l co-ordinates to linked list.
+          break;
+        }
+      }
+    }
+    if(board[i-1][j] == WHITE)
+    {
+      for(int l=i; l>=0; l--)
+      {
+        if(board[l][j].type == NONE)
+        {
+          //export i,l co-ordinates to linked list.
+          break;
+        }
+      }
+    }
+    if(board[i+1][j+1] == WHITE)
+    {
+      int k=i; int l=j;
+      for(k,l; k<SIZE, l<SIZE; k++, l++)
+      {
+        if(board[k][l].type == NONE)
+        {
+          //export k,l to linked list.
+          break;
+        }
+      }
+    }
+    if(board[i-1][j-1] == WHITE)
+    {
+      int k=i; int l=j;
+      for(k,l; k>=0, l>=0; k--, l--) //x goes down, y goes down
+      {
+        if(board[k][l].type == NONE)
+        {
+          //export k,l to linked list.
+          break;
+        }
+      }
+    }
+    if(board[i-x][j+1] == WHITE)
+    {
+      int k=i; int l=j;
+      for(k,l; k>=0, l<SIZE; k--, l++)
+      {
+        if(board[k][l].type == NONE)
+        {
+          //export k,l to linked list.
+          break;
+        }
+      }
+    }
+  }
+}
+
+ void whiteMove()
+{
+  for(i=0; i<SIZE; i++)
+  {
+    for(j=0; j<SIZE; j++)
+    {
+      //checks the board for black disks
+      if(board[i][j].type ==  BLACK)
+      {
+        //checking upwards for possible moves
+        if(board[i][j+1] == BLACK)
+        {
+          for(int l=j; j<SIZE; j++)
+          {
+            if(board[i][l].type == NONE)
+            {
+              //export i,l co-ordinates to linked list.
+              break;
+            }
+          }
+        }
+        //checking downwards for possible moves
+        if(board[i][j-1] == BLACK)
+        {
+          for(int l=j; j>=0; j--)
+          {
+            if(board[i][l].type == NONE)
+            {
+              //export i,l co-ordinates to linked list.
+              break;
+            }
+          }
+        }
+        if(board[i+1][j] == BLACK)
+        {
+          for(int l=i; l<SIZE; l++)
+          {
+            if(board[l][j].type == NONE)
+            {
+              //export i,l co-ordinates to linked list.
+              break;
+            }
+          }
+        }
+        if(board[i-1][j] == BLACK)
+        {
+          for(int l=i; l>=0; l--)
+          {
+            if(board[l][j].type == NONE)
+            {
+              //export i,l co-ordinates to linked list.
+              break;
+            }
+          }
+        }
+        if(board[i+1][j+1] == BLACK)
+        {
+          int k=i; int l=j;
+          for(k,l; k<SIZE, l<SIZE; k++, l++)
+          {
+            if(board[k][l].type == NONE)
+            {
+              //export k,l to linked list.
+              break;
+            }
+          }
+        }
+        if(board[i-1][j-1] == BLACK)
+        {
+          int k=i; int l=j;
+          for(k,l; k>=0, l>=0; k--, l--) //x goes down, y goes down
+          {
+            if(board[k][l].type == NONE)
+            {
+              //export k,l to linked list.
+              break;
+            }
+          }
+        }
+        if(board[i-x][j+1] == BLACK)
+        {
+          int k=i; int l=j;
+          for(k,l; k>=0, l<SIZE; k--, l++)
+          {
+            if(board[k][l].type == NONE)
+            {
+              //export k,l to linked list.
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//changes disk colour
+void colourChangeBlack()//change the colours of other disks once a move is made
+{
+  //takes input of users move (co-ordinates, x,y)
+  int x, y;
+  //horizontal going right
+  if(board[x+1][y].type == WHITE)
+  {
+    int l = x+1;
+    while(board[l][y].type != BLACK && board[l][y].type != NONE || l<SIZE)
+    {
+      board[l][y].type == BLACK;
+      l++;
+    }
+  }
+  //horizontal going left
+  if(board[x-1][y].type == WHITE)
+  {
+    int l = x-1;
+    while(board[l][y].type != BLACK && board[l][y].type != NONE || l >= 0)
+    {
+      board[l][y].type == BLACK;
+      l--;
+    }
+  }
+  //vertical going up
+  if(board[x][y+1].type == WHITE)
+  {
+    int l = y+1;
+    while(board[x][l].type != BLACK && board[x][l].type != NONE || l < SIZE)
+    {
+      board[x][l].type == BLACK;
+      l++;
+    }
+  }
+  //vertical going down
+  if(board[x][y-1].type == WHITE)
+  {
+    int l = y-1;
+    while(board[x][l].type != BLACK && board[x][l].type != NONE || l >= 0)
+    {
+      board[x][l].type == BLACK;
+      l--;
+    }
+  }
 }
