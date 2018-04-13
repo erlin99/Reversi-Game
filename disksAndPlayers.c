@@ -347,3 +347,54 @@ void blackMove()
 
 
 }
+
+//changes disk colour
+void colourChangeBlack()//change the colours of other disks once a move is made
+{
+  //takes input of users move (co-ordinates, x,y)
+  int x, y;
+  //horizontal going right
+  if(board[x+1][y].type == WHITE)
+  {
+    int l = x+1;
+    while(board[l][y].type != BLACK && board[l][y].type != NONE || l<SIZE)
+    {
+      board[l][y].type == BLACK;
+      l++;
+    }
+  }
+  //horizontal going left
+  if(board[x-1][y].type == WHITE)
+  {
+    int l = x-1;
+    while(board[l][y].type != BLACK && board[l][y].type != NONE || l >= 0)
+    {
+      board[l][y].type == BLACK;
+      l--;
+    }
+  }
+  //vertical going up
+  if(board[x][y+1].type == WHITE)
+  {
+    int l = y+1;
+    while(board[x][l].type != BLACK && board[x][l].type != NONE || l < SIZE)
+    {
+      board[x][l].type == BLACK;
+      l++;
+    }
+
+  }
+  //vertical going down
+  if(board[x][y-1].type == WHITE)
+  {
+    int l = y-1;
+    while(board[x][l].type != BLACK && board[x][l].type != NONE || l >= 0)
+    {
+      board[x][l].type == BLACK;
+      l--;
+    }
+
+  }
+
+}
+
