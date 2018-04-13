@@ -128,11 +128,10 @@ void printBoard(disk board[SIZE][SIZE])
 
 void playGame(player1 *player1, player2 *player2, disk board[SIZE][SIZE])
  {
-
  }
-//
 
-//print final result to terminal and to text file 
+
+//print final result to terminal and to text file
 void finalResult(player *player1, player *player2)
 {
   FILE *filePtr;//pointer to rext file

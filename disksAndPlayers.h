@@ -9,7 +9,7 @@ enum colour {
   NONE
 };
 
-//struct for linked list 
+//struct for linked list to store possible user's choices 
 typedef struct choices {
   position choice;
   struct choices *next;
