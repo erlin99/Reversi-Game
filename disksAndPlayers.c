@@ -126,10 +126,224 @@ void printBoard(disk board[SIZE][SIZE])
   printf("\n");
 }
 
-// void playGame()
-// {
-// }
+void playGame()
+ {
+
+ }
 //
-// void finalResult()
-// {
-// }
+void blackMove()
+{
+  for(i=0; i<SIZE; i++)
+  {
+    for(j=0; j<SIZE; j++)
+    {
+      //checks the board for black disks
+      if(board[i][j].type ==  BLACK)
+      {
+          //checking upwards for possible moves
+           if(board[i][j+1] == WHITE)
+           {
+             for(int l=j; j<SIZE; j++)
+             {
+              if(board[i][l].type == NONE)
+              {
+                //export i,l co-ordinates to linked list.
+                break;
+              }
+             }
+           }
+           //checking downwards for possible moves
+           if(board[i][j-1] == WHITE)
+           {
+             for(int l=j; j>=0; j--)
+             {
+              if(board[i][l].type == NONE)
+              {
+                //export i,l co-ordinates to linked list.
+                break;
+              }
+             }
+           }
+
+           if(board[i+1][j] == WHITE)
+           {
+             for(int l=i; l<SIZE; l++)
+             {
+              if(board[l][j].type == NONE)
+              {
+                //export i,l co-ordinates to linked list.
+                break;
+              }
+             }
+           }
+
+           if(board[i-1][j] == WHITE)
+           {
+             for(int l=i; l>=0; l--)
+             {
+              if(board[l][j].type == NONE)
+              {
+                //export i,l co-ordinates to linked list.
+                break;
+              }
+             }
+           }
+
+           if(board[i+1][j+1] == WHITE)
+           {
+            int k=i; int l=j;
+            for(k,l; k<SIZE, l<SIZE; k++, l++)
+            {
+              if(board[k][l].type == NONE)
+              {
+                //export k,l to linked list.
+                break;
+              }
+            }
+
+           }
+
+           if(board[i-1][j-1] == WHITE)
+           {
+            int k=i; int l=j;
+            for(k,l; k>=0, l>=0; k--, l--) //x goes down, y goes down
+            {
+              if(board[k][l].type == NONE)
+              {
+                //export k,l to linked list.
+                break;
+              }
+            }
+
+           }
+
+           if(board[i-x][j+1] == WHITE)
+           {
+            int k=i; int l=j;
+            for(k,l; k>=0, l<SIZE; k--, l++)
+            {
+              if(board[k][l].type == NONE)
+              {
+                //export k,l to linked list.
+                break;
+              }
+            }
+
+           }
+      }
+
+    }
+  }
+}
+
+ void whiteMove()
+{
+  for(i=0; i<SIZE; i++)
+  {
+    for(j=0; j<SIZE; j++)
+    {
+      //checks the board for black disks
+      if(board[i][j].type ==  BLACK)
+      {
+          //checking upwards for possible moves
+           if(board[i][j+1] == BLACK)
+           {
+             for(int l=j; j<SIZE; j++)
+             {
+              if(board[i][l].type == NONE)
+              {
+                //export i,l co-ordinates to linked list.
+                break;
+              }
+             }
+           }
+
+           //checking downwards for possible moves
+           if(board[i][j-1] == BLACK)
+           {
+             for(int l=j; j>=0; j--)
+             {
+              if(board[i][l].type == NONE)
+              {
+                //export i,l co-ordinates to linked list.
+                break;
+              }
+             }
+           }
+
+           if(board[i+1][j] == BLACK)
+           {
+             for(int l=i; l<SIZE; l++)
+             {
+              if(board[l][j].type == NONE)
+              {
+                //export i,l co-ordinates to linked list.
+                break;
+              }
+             }
+           }
+
+           if(board[i-1][j] == BLACK)
+           {
+             for(int l=i; l>=0; l--)
+             {
+              if(board[l][j].type == NONE)
+              {
+                //export i,l co-ordinates to linked list.
+                break;
+              }
+             }
+           }
+
+           if(board[i+1][j+1] == BLACK)
+           {
+            int k=i; int l=j;
+            for(k,l; k<SIZE, l<SIZE; k++, l++)
+            {
+              if(board[k][l].type == NONE)
+              {
+                //export k,l to linked list.
+                break;
+              }
+            }
+
+           }
+
+           if(board[i-1][j-1] == BLACK)
+           {
+            int k=i; int l=j;
+            for(k,l; k>=0, l>=0; k--, l--) //x goes down, y goes down
+            {
+              if(board[k][l].type == NONE)
+              {
+                //export k,l to linked list.
+                break;
+              }
+            }
+
+           }
+
+           if(board[i-x][j+1] == BLACK)
+           {
+            int k=i; int l=j;
+            for(k,l; k>=0, l<SIZE; k--, l++)
+            {
+              if(board[k][l].type == NONE)
+              {
+                //export k,l to linked list.
+                break;
+              }
+            }
+
+           }
+
+
+
+
+      }
+
+    }
+  }
+
+
+}
