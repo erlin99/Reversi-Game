@@ -15,14 +15,14 @@ void initializePlayers(player *player1, player *player2)
   fgets(player1->name, 20, stdin);
   nameSize = strlen(player1->name);
   player1->name[nameSize -1] = '\0';
-  player1->name[0] = toupper(player1->name);
+  player1->name[0] = toupper(player1->name[0]);
 
   //ask player 2 for the name and replace \n with \0
   printf("What is the name of player two?\n");
   fgets(player2->name, 20, stdin);
   nameSize = strlen(player2->name);
   player2->name[nameSize - 1] = '\0';
-  player2->name[0] = toupper(player2->name);
+  player2->name[0] = toupper(player2->name[0]);
 
   //ask one of the player to choose a colour
   do {
@@ -441,4 +441,15 @@ void removeDup(ChoicesPtr *sPtr)
     }
     currentPtr = currentPtr->next;
   }
+}
+
+//implement the following to the changeColour function
+//this deletes all elements in linked list for following set of moves 
+ChoicesPtr temp;
+
+while (startPtr != NULL)
+{
+  temp = startPtr;
+  startPtr = temp->next;
+  free(temp);
 }
