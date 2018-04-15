@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "disksAndPlayers.h"
 
@@ -14,12 +15,14 @@ void initializePlayers(player *player1, player *player2)
   fgets(player1->name, 20, stdin);
   nameSize = strlen(player1->name);
   player1->name[nameSize -1] = '\0';
+  player1->name[0] = toupper(player1->name);
 
   //ask player 2 for the name and replace \n with \0
   printf("What is the name of player two?\n");
   fgets(player2->name, 20, stdin);
   nameSize = strlen(player2->name);
   player2->name[nameSize - 1] = '\0';
+  player2->name[0] = toupper(player2->name);
 
   //ask one of the player to choose a colour
   do {
@@ -33,16 +36,16 @@ void initializePlayers(player *player1, player *player2)
     player1->type = BLACK;
     player2->type = WHITE;
 
-    printf("player1 %d\n", player1->type);
-    printf("player2 %d\n", player2->type);
+    printf("%s --> BLACK (1)\n", player1->name);
+    printf("%s --> WHITE (0)\n", player2->name);
   }
   else
   {
     player1->type = WHITE;
     player2->type = BLACK;
 
-    printf("player1 %d\n", player1->type);
-    printf("player2 %d\n", player2->type);
+    printf("%s --> WHITE (0)\n", player1->name);
+    printf("%s --> BLACK (1)\n", player2->name);
   }
   //assign the points to each player:
   player1->points = 2;
@@ -126,9 +129,9 @@ void printBoard(disk board[SIZE][SIZE])
   printf("\n");
 }
 
-// void playGame(player1 *player1, player2 *player2, disk board[SIZE][SIZE])
-// {
-// }
+void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
+{
+}
 
 //print final result to terminal and to text file
 void finalResult(player *player1, player *player2)
@@ -349,26 +352,38 @@ void insertMoves(ChoicesPtr *sPtr, int row, int column)
   newPtr->choice.row = row;
   newPtr->choice.col = column;
 
-  if (*sPtr == NULL) //if first element
+  ChoicesPtr previousPtr = NULL;  //pointer to previous node in list
+  ChoicesPtr currentPtr = *sPtr; //pointer to current node in list
+
+  //loop to find the correct location in the list
+  while (currentPtr != NULL && row > currentPtr->choice.row)
   {
-    newPtr->next = NULL;//node doesn't link to anything
+    previousPtr = currentPtr; //walk to ...
+    currentPtr = currentPtr->next; //... next node
   }
-  else
+
+  //insert new node at beginning of list
+  if (previousPtr == NULL)
   {
     newPtr->next = *sPtr;
+    *sPtr = newPtr;
   }
-  *sPtr = newPtr; ////point startPtr to last element entered
+  else //insert new node between previousPtr and currentPtr
+  {
+    previousPtr->next = newPtr;
+    newPtr->next =currentPtr;
+  }
 }
 
-//diplay possible moves on the terminal
+//display possible moves onto terminal
 void printMoves(ChoicesPtr currentPtr, player *player1, player *player2, char name[20])
 {
-  if (currentPtr == NULL) //if there are no nodes in linked lists:
+  if (currentPtr == NULL) //if there are no elements in linked list:
   {
     printf("NO POSSIBLE MOVES!  END OF GAME.\n");
     finalResult(player1, player2); //display final result
   }
-  else
+  else //if there are elements in list, display moves on terminal
   {
     printf("\n%s, choose your next move (row, col):\n", name);
 
@@ -381,5 +396,35 @@ void printMoves(ChoicesPtr currentPtr, player *player1, player *player2, char na
       i++;
     }
     printf("\n? ");
+  }
+}
+
+//remove duplicates moves from the linked list
+void removeDup(ChoicesPtr *sPtr)
+{
+  ChoicesPtr currentPtr, nextPtr, duplicate;
+
+  currentPtr = *sPtr;
+
+  //compare each element with the rest of the elements
+  while (currentPtr != NULL && currentPtr->next != NULL)
+  {
+    nextPtr = currentPtr;
+
+    while (nextPtr->next != NULL)
+    {
+      //if there is a duplicate delete it
+      if ((currentPtr->choice.row == nextPtr->next->choice.row) && (currentPtr->choice.col == nextPtr->next->choice.col))
+      {
+        duplicate = nextPtr->next;
+        nextPtr->next = nextPtr->next->next;
+        free(duplicate);
+      }
+      else
+      {
+        nextPtr = nextPtr->next;
+      }
+    }
+    currentPtr = currentPtr->next;
   }
 }
