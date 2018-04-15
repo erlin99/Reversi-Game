@@ -298,10 +298,14 @@ void checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr)
 }
 
 // //changes disk colour
- void colourChangeBlack()//change the colours of other disks once a move is made
+ void colourChangeBlack(coordX, coordY)//change the colours of other disks once a move is made
  {
    //takes input of users move (co-ordinates, x,y)
    int x, y;
+
+   //assigns values from user input function
+   x = coordX;
+   y = coordY;
    //horizontal going right
    if(board[x+1][y].type == WHITE)
    {
