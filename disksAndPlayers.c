@@ -325,9 +325,9 @@ int checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr, int TYPE)
 }
 
 //change the colours of other disks once a move is made
-void colourChange(int x, int y, disk board[SIZE][SIZE], player *player)
+void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, player *playerOther)
 {
-  int TYPE = player->type;
+  int TYPE = playerMoving->type;
   int TYPE2;
   if (TYPE == BLACK) {
     TYPE2 = WHITE;
@@ -337,103 +337,166 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *player)
   }
 
   board[x][y].type = TYPE;//change colour of selected position
-  player->points += 1;
+  playerMoving->points++;
 
-  int k, l;
+  int i, j, k, l;
   //change colours going RIGHT
   if(board[x][y+1].type == TYPE2)
   {
-    l = y+1;
-    while(board[x][l].type != TYPE && l < SIZE)
+    for (j = y+1; j < SIZE; j++)
     {
-      board[x][l].type = TYPE;
-      l++;
-      player->points += 1; //add points to player
+      if (board[x][j].type == TYPE) {
+        l = y+1;
+        while(board[x][l].type != TYPE && l < SIZE)
+        {
+          board[x][l].type = TYPE;
+          l++;
+          playerMoving->points++; //add points to player
+          playerOther->points--; //subtract points to opponent
+        }
+        break;
+      }
     }
   }
   //change colours going LEFT
   if(board[x][y-1].type == TYPE2)
   {
-    l = y-1;
-    while(board[x][l].type != TYPE && l >= 0)
+    for (j = y-1; j >= 0; j--)
     {
-      board[x][l].type = TYPE;
-      l--;
-      player->points += 1; //add points to player
+      if (board[x][j].type == TYPE)
+      {
+        l = y-1;
+        while(board[x][l].type != TYPE && l >= 0)
+        {
+          board[x][l].type = TYPE;
+          l--;
+          playerMoving->points++; //add points to player
+          playerOther->points--; //subtract points to opponent
+        }
+        break;
+      }
     }
   }
   //change colours DOWNWARDS
   if(board[x+1][y].type == TYPE2)
   {
-    k = x+1;
-    while(board[k][y].type != TYPE && l < SIZE)
+    for (i = x+1; i < SIZE; i++)
     {
-      board[k][y].type = TYPE;
-      k++;
-      player->points += 1;//add points to player
+      if (board[i][y].type == TYPE)
+      {
+        k = x+1;
+        while(board[k][y].type != TYPE && l < SIZE)
+        {
+          board[k][y].type = TYPE;
+          k++;
+          playerMoving->points++; //add points to player
+          playerOther->points--; //subtract points to opponent
+        }
+        break;
+      }
     }
   }
   //change colour UPWARDS
   if(board[x-1][y].type == TYPE2)
   {
-    k = x-1;
-    while(board[k][y].type != TYPE &&  l >= 0)
+    for (i = x-1; i >= 0; i--)
     {
-      board[k][y].type = TYPE;
-      k--;
-      player->points += 1;//add points to player
+      if (board[i][y].type == TYPE)
+      {
+        k = x-1;
+        while(board[k][y].type != TYPE &&  k >= 0)
+        {
+          board[k][y].type = TYPE;
+          k--;
+          playerMoving->points++; //add points to player
+          playerOther->points--; //subtract points to opponent
+        }
+        break;
+      }
     }
   }
   //change colour RIGHT-DOWN DIAGONAL
   if(board[x+1][y+1].type == TYPE2)
   {
-    k = x+1;
-    l = y+1;
-    while(board[k][l].type != TYPE && k < SIZE && l < SIZE)
+    for (i = x+1, j = y+1; i < SIZE && j < SIZE; i++, j++)
     {
-      board[k][l].type = TYPE;
-      k++;
-      l++;
-      player->points += 1;//add points to player
+      if (board[i][j].type == TYPE)
+      {
+        k = x+1;
+        l = y+1;
+        while(board[k][l].type != TYPE && k < SIZE && l < SIZE)
+        {
+          board[k][l].type = TYPE;
+          k++;
+          l++;
+          playerMoving->points++; //add points to player
+          playerOther->points--; //subtract points to opponent
+        }
+        break;
+      }
     }
   }
   //change colour RIGHT-UP DIAGONAL
   if(board[x-1][y+1].type == TYPE2)
   {
-    k = x-1;
-    l = y+1;
-    while(board[k][l].type != TYPE && k >= 0 && l < SIZE)
+    for (i = x-1, j = y+1; i >= 0 && j < SIZE; i--, j++)
     {
-      board[k][l].type = TYPE;
-      k--;
-      l++;
-      player->points += 1;//add points to player
+      if (board[i][j].type == TYPE)
+      {
+        k = x-1;
+        l = y+1;
+        while(board[k][l].type != TYPE && k >= 0 && l < SIZE)
+        {
+          board[k][l].type = TYPE;
+          k--;
+          l++;
+          playerMoving->points++; //add points to player
+          playerOther->points--; //subtract points to opponent
+        }
+        break;
+      }
     }
   }
   //change colour LEFT-DOWN DIAGONAL
   if(board[x+1][y-1].type == TYPE2)
   {
-    k = x+1;
-    l = y-1;
-    while(board[k][l].type != TYPE && k < SIZE && l >= 0)
+    for (i = x+1, j = y-1; i < SIZE && j >= 0; i++, j--)
     {
-      board[k][l].type = TYPE;
-      k++;
-      l--;
-      player->points += 1;//add points to player
+      if (board[i][j].type == TYPE)
+      {
+        k = x+1;
+        l = y-1;
+        while(board[k][l].type != TYPE && k < SIZE && l >= 0)
+        {
+          board[k][l].type = TYPE;
+          k++;
+          l--;
+          playerMoving->points++; //add points to player
+          playerOther->points--; //subtract points to opponent
+        }
+        break;
+      }
     }
   }
   //change colour LEFT-UP DIAGONAL
   if(board[x-1][y-1].type == TYPE2)
   {
-    k = x-1;
-    l = y-1;
-    while(board[k][l].type != TYPE && k >= 0 && l >= 0)
+    for (i = x-1, j = y-1; i >= 0 && j >= 0; i--, j--)
     {
-      board[k][l].type = TYPE;
-      k--;
-      l--;
-      player->points += 1;//add points to player
+      if (board[i][j].type == TYPE)
+      {
+        k = x-1;
+        l = y-1;
+        while(board[k][l].type != TYPE && k >= 0 && l >= 0)
+        {
+          board[k][l].type = TYPE;
+          k--;
+          l--;
+          playerMoving->points++; //add points to player
+          playerOther->points--; //subtract points to opponent
+        }
+        break;
+      }
     }
   }
 }
