@@ -55,7 +55,7 @@ void finalResult(player *player1, player *player2);
 void insertMoves(ChoicesPtr *sPtr, int row, int column);
 
 //display on terminal the possible moves stored in linked list
-void printMoves(ChoicesPtr currentPtr, player *player1, player *player2, char name[20]);
+void printMoves(ChoicesPtr currentPtr, char name[20])ñ
 
 //check possible moves at each turn
 void checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr);

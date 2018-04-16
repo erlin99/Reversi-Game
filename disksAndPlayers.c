@@ -36,7 +36,7 @@ void initializePlayers(player *player1, player *player2)
     player1->type = BLACK;
     player2->type = WHITE;
 
-    printf("%s --> BLACK (1)\n", player1->name);
+    printf("\n%s --> BLACK (1)\n", player1->name);
     printf("%s --> WHITE (0)\n", player2->name);
   }
   else
@@ -44,7 +44,7 @@ void initializePlayers(player *player1, player *player2)
     player1->type = WHITE;
     player2->type = BLACK;
 
-    printf("%s --> WHITE (0)\n", player1->name);
+    printf("\n%s --> WHITE (0)\n", player1->name);
     printf("%s --> BLACK (1)\n", player2->name);
   }
   //assign the points to each player:
@@ -108,7 +108,7 @@ void printBoard(disk board[SIZE][SIZE])
   {
     printf("\n%d | ", i+1); //print numbers on the y axis
 
-    for(j=0;j<SIZE; j++)
+    for(j=0;j<SIZE; j++) //depending on the type of the cell print 1, 0 or x
     {
       switch(board[i][j].type)
       {
@@ -297,7 +297,7 @@ void checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr)
   }
 }
 
- //change the colours of other disks once a move is made
+//change the colours of other disks once a move is made
 void colourChange(int x, int y, disk board[SIZE][SIZE], player *player)
 {
   int TYPE = player->type;
@@ -443,26 +443,17 @@ void insertMoves(ChoicesPtr *sPtr, int row, int column)
 }
 
 //display possible moves onto terminal
-void printMoves(ChoicesPtr currentPtr, player *player1, player *player2, char name[20])
+void printMoves(ChoicesPtr currentPtr, char name[20])
 {
-  if (currentPtr == NULL) //if there are no elements in linked list:
-  {
-    printf("NO POSSIBLE MOVES!  END OF GAME.\n");
-    finalResult(player1, player2); //display final result
-  }
-  else //if there are elements in list, display moves on terminal
-  {
-    printf("\n%s, choose your next move (row, col):\n", name);
+  printf("\n%s, choose your next move (row, col):\n", name);
 
-    int i = 1;
-    //while loop to print out all possible moves
-    while (currentPtr != NULL)
-    {
-      printf("%d.(%d, %d)\t", i, currentPtr->choice.row+1, currentPtr->choice.col+1);
-      currentPtr = currentPtr->next;
-      i++;
-    }
-    printf("\n? ");
+  int i = 1;
+  //while loop to print out all possible moves
+  while (currentPtr != NULL)
+  {
+    printf("%d.(%d, %d)\t", i, currentPtr->choice.row+1, currentPtr->choice.col+1);
+    currentPtr = currentPtr->next;
+    i++;
   }
 }
 
@@ -487,7 +478,7 @@ void removeDup(ChoicesPtr *sPtr)
         nextPtr->next = nextPtr->next->next;
         free(duplicate);
       }
-      else
+      else //if there is no duplicate move onto next
       {
         nextPtr = nextPtr->next;
       }
