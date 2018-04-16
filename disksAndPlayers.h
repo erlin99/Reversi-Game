@@ -63,4 +63,7 @@ int checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr, int TYPE);
 //check for duplicated possible moves and delete
 void removeDup(ChoicesPtr *sPtr);
 
+//change other disks colors once a move is made
+void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, player *playerOther);
+
 #endif
