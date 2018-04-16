@@ -297,53 +297,116 @@ void checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr)
   }
 }
 
-// //changes disk colour
-void colourChangeBlack(coordX, coordY)//change the colours of other disks once a move is made
+ //change the colours of other disks once a move is made
+void colourChange(int x, int y, disk board[SIZE][SIZE], player *player)
 {
-  //takes input of users move (co-ordinates, x,y)
-  int x, y;
+  int TYPE = player->type;
+  int TYPE2;
+  if (TYPE == BLACK) {
+    TYPE2 = WHITE;
+  }
+  else {
+    TYPE2 = BLACK;
+  }
 
-  //assigns values from user input function
-  x = coordX;
-  y = coordY;
-  //horizontal going right
-  if(board[x+1][y].type == WHITE)
+  board[x][y].type = TYPE;//change colour of selected position
+  player->points += 1;
+
+  int k, l;
+  //change colours going RIGHT
+  if(board[x][y+1].type == TYPE2)
   {
-    int l = x+1;
-    while(board[l][y].type != BLACK && board[l][y].type != NONE || l<SIZE)
+    l = y+1;
+    while(board[x][l].type != TYPE && l < SIZE)
     {
-      board[l][y].type == BLACK;
+      board[x][l].type = TYPE;
       l++;
+      player->points += 1; //add points to player
     }
   }
-  //horizontal going left
-  if(board[x-1][y].type == WHITE)
+  //change colours going LEFT
+  if(board[x][y-1].type == TYPE2)
   {
-    int l = x-1;
-    while(board[l][y].type != BLACK && board[l][y].type != NONE || l >= 0)
+    l = y-1;
+    while(board[x][l].type != TYPE && l >= 0)
     {
-      board[l][y].type == BLACK;
+      board[x][l].type = TYPE;
       l--;
+      player->points += 1; //add points to player
     }
   }
-  //vertical going up
-  if(board[x][y+1].type == WHITE)
+  //change colours DOWNWARDS
+  if(board[x+1][y].type == TYPE2)
   {
-    int l = y+1;
-    while(board[x][l].type != BLACK && board[x][l].type != NONE || l < SIZE)
+    k = x+1;
+    while(board[k][y].type != TYPE && l < SIZE)
     {
-      board[x][l].type == BLACK;
+      board[k][y].type = TYPE;
+      k++;
+      player->points += 1;//add points to player
+    }
+  }
+  //change colour UPWARDS
+  if(board[x-1][y].type == TYPE2)
+  {
+    k = x-1;
+    while(board[k][y].type != TYPE &&  l >= 0)
+    {
+      board[k][y].type = TYPE;
+      k--;
+      player->points += 1;//add points to player
+    }
+  }
+  //change colour RIGHT-DOWN DIAGONAL
+  if(board[x+1][y+1].type == TYPE2)
+  {
+    k = x+1;
+    l = y+1;
+    while(board[k][l].type != TYPE && k < SIZE && l < SIZE)
+    {
+      board[k][l].type = TYPE;
+      k++;
       l++;
+      player->points += 1;//add points to player
     }
   }
-  //vertical going down
-  if(board[x][y-1].type == WHITE)
+  //change colour RIGHT-UP DIAGONAL
+  if(board[x-1][y+1].type == TYPE2)
   {
-    int l = y-1;
-    while(board[x][l].type != BLACK && board[x][l].type != NONE || l >= 0)
+    k = x-1;
+    l = y+1;
+    while(board[k][l].type != TYPE && k >= 0 && l < SIZE)
     {
-      board[x][l].type == BLACK;
+      board[k][l].type = TYPE;
+      k--;
+      l++;
+      player->points += 1;//add points to player
+    }
+  }
+  //change colour LEFT-DOWN DIAGONAL
+  if(board[x+1][y-1].type == TYPE2)
+  {
+    k = x+1;
+    l = y-1;
+    while(board[k][l].type != TYPE && k < SIZE && l >= 0)
+    {
+      board[k][l].type = TYPE;
+      k++;
       l--;
+      player->points += 1;//add points to player
+    }
+  }
+  //change colour LEFT-UP DIAGONAL
+  if(board[x-1][y-1].type == TYPE2)
+  {
+    k = x-1;
+    l = y-1;
+    while(board[k][l].type != TYPE && k >= 0 && l >= 0)
+    {
+      board[k][l].type = TYPE;
+      k--;
+      l--;
+      player->points += 1;//add points to player
     }
   }
 }
