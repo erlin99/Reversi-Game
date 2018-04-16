@@ -10,7 +10,7 @@ Program that simulates the Othello/Reversi Game*/
 
 int main(void)
 {
-  ChoicesPtr startPtr = NULL; //pointer to keep track of linked list 
+  ChoicesPtr startPtr = NULL; //pointer to keep track of linked list
 
   player player1 = {"player1", NONE,0};
   player player2 = {"player2", NONE,0};
@@ -24,7 +24,7 @@ int main(void)
 
   printBoard(board);
 
-  playGame(&player1, &player2, board);//game logic
+  playGame(&player1, &player2, board, &startPtr);//game logic
 
   finalResult(&player1, &player2); //final result
 }

@@ -129,7 +129,7 @@ void printBoard(disk board[SIZE][SIZE])
   printf("\n");
 }
 
-void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
+void playGame(player *player1, player *player2, disk board[SIZE][SIZE], ChoicesPtr *sPtr)
 {
 }
 
@@ -298,55 +298,55 @@ void checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr)
 }
 
 // //changes disk colour
- void colourChangeBlack(coordX, coordY)//change the colours of other disks once a move is made
- {
-   //takes input of users move (co-ordinates, x,y)
-   int x, y;
+void colourChangeBlack(coordX, coordY)//change the colours of other disks once a move is made
+{
+  //takes input of users move (co-ordinates, x,y)
+  int x, y;
 
-   //assigns values from user input function
-   x = coordX;
-   y = coordY;
-   //horizontal going right
-   if(board[x+1][y].type == WHITE)
-   {
-     int l = x+1;
-     while(board[l][y].type != BLACK && board[l][y].type != NONE || l<SIZE)
-     {
-       board[l][y].type == BLACK;
-       l++;
-     }
-   }
-   //horizontal going left
-   if(board[x-1][y].type == WHITE)
-   {
-     int l = x-1;
-     while(board[l][y].type != BLACK && board[l][y].type != NONE || l >= 0)
-     {
-       board[l][y].type == BLACK;
-       l--;
-     }
-   }
-   //vertical going up
-   if(board[x][y+1].type == WHITE)
-   {
-     int l = y+1;
-     while(board[x][l].type != BLACK && board[x][l].type != NONE || l < SIZE)
-     {
-       board[x][l].type == BLACK;
-       l++;
-     }
-   }
-   //vertical going down
-   if(board[x][y-1].type == WHITE)
-   {
-     int l = y-1;
-     while(board[x][l].type != BLACK && board[x][l].type != NONE || l >= 0)
-     {
-       board[x][l].type == BLACK;
-       l--;
-     }
-   }
- }
+  //assigns values from user input function
+  x = coordX;
+  y = coordY;
+  //horizontal going right
+  if(board[x+1][y].type == WHITE)
+  {
+    int l = x+1;
+    while(board[l][y].type != BLACK && board[l][y].type != NONE || l<SIZE)
+    {
+      board[l][y].type == BLACK;
+      l++;
+    }
+  }
+  //horizontal going left
+  if(board[x-1][y].type == WHITE)
+  {
+    int l = x-1;
+    while(board[l][y].type != BLACK && board[l][y].type != NONE || l >= 0)
+    {
+      board[l][y].type == BLACK;
+      l--;
+    }
+  }
+  //vertical going up
+  if(board[x][y+1].type == WHITE)
+  {
+    int l = y+1;
+    while(board[x][l].type != BLACK && board[x][l].type != NONE || l < SIZE)
+    {
+      board[x][l].type == BLACK;
+      l++;
+    }
+  }
+  //vertical going down
+  if(board[x][y-1].type == WHITE)
+  {
+    int l = y-1;
+    while(board[x][l].type != BLACK && board[x][l].type != NONE || l >= 0)
+    {
+      board[x][l].type == BLACK;
+      l--;
+    }
+  }
+}
 
 //insert possible moves into a linked list
 void insertMoves(ChoicesPtr *sPtr, int row, int column)
@@ -403,20 +403,6 @@ void printMoves(ChoicesPtr currentPtr, player *player1, player *player2, char na
   }
 }
 
-void inputMove()
-{
-  puts("Choose a move from the list. Enter x,y co-ordinates.");
-  int coordX, coordY;
-  
-  printf("X: ");
-  scanf("%d", &coordX);
-  printf("\n");
-
-  printf("Y: ");
-  scanf("%d", &coordY);
-  printf("\n");
-}
-
 //remove duplicates moves from the linked list
 void removeDup(ChoicesPtr *sPtr)
 {
@@ -448,7 +434,7 @@ void removeDup(ChoicesPtr *sPtr)
 }
 
 //implement the following to the changeColour function
-//this deletes all elements in linked list for following set of moves 
+//this deletes all elements in linked list for following set of moves
 ChoicesPtr temp;
 
 while (startPtr != NULL)
