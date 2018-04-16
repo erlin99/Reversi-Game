@@ -46,7 +46,7 @@ void initializeBoard(disk board[SIZE][SIZE], player player1, player player2);
 void printBoard(disk board[SIZE][SIZE]);
 
 //game logic
-void playGame(player *player1, player *player2, disk board[SIZE][SIZE], ChoicesPtr *sPtr);
+void playGame(player *player1, player *player2, disk board[SIZE][SIZE]);
 
 //display final result on terminal and to text file
 void finalResult(player *player1, player *player2);
@@ -55,10 +55,10 @@ void finalResult(player *player1, player *player2);
 void insertMoves(ChoicesPtr *sPtr, int row, int column);
 
 //display on terminal the possible moves stored in linked list
-void printMoves(ChoicesPtr currentPtr, char name[20])ñ
+void printMoves(ChoicesPtr currentPtr, char name[20]);
 
 //check possible moves at each turn
-void checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr);
+int checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr, int TYPE);
 
 //check for duplicated possible moves and delete
 void removeDup(ChoicesPtr *sPtr);

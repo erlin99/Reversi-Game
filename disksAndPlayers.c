@@ -129,7 +129,7 @@ void printBoard(disk board[SIZE][SIZE])
   printf("\n");
 }
 
-void playGame(player *player1, player *player2, disk board[SIZE][SIZE], ChoicesPtr *sPtr)
+void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
 {
 }
 
@@ -187,114 +187,141 @@ void finalResult(player *player1, player *player2)
   fclose(filePtr); //close file
 }
 
-void checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr)
+int checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr, int TYPE)
 {
+  int TYPE2;
+  int count = 0;
+  if (TYPE == BLACK) {
+    TYPE2 = WHITE;
+  }
+  else {
+    TYPE2 = BLACK;
+  }
+
   int i, j, k, l;
   for(i = 0; i < SIZE; i++) //control rows
   {
     for(j = 0; j < SIZE; j++) //control columns
     {
-      //checks the board for black disks
-      if(board[i][j].type ==  BLACK)
+      //checks the board for moving player disks
+      if(board[i][j].type ==  TYPE)
       {
         //checking for possible moves to the RIGHT
-        if(board[i][j+1].type == WHITE)
+        if(board[i][j+1].type == TYPE2)
         {
-          for(l = j+1; l < SIZE; l++)
-          {
-            if(board[i][l].type == NONE) {
+          l = j+1;
+          while (l < SIZE && board[i][l].type != TYPE) {
+            if (board[i][l].type == NONE) {
               insertMoves(startPtr, i, l);
+              count++;
               break;
             }
+            l++;
           }
         }
-
         //checking for possible moves to the LEFT
-        if(board[i][j-1].type == WHITE)
+        if(board[i][j-1].type == TYPE2)
         {
-          for(l = j-1; l >= 0; l--)
-          {
-            if(board[i][l].type == NONE) {
+          l = j-1;
+          while (l >= 0 && board[i][l].type != TYPE) {
+            if (board[i][l].type == NONE) {
               insertMoves(startPtr, i, l);
+              count++;
               break;
             }
+            l--;
           }
         }
-
         //checking possible moves DOWNWARDS
-        if(board[i+1][j].type == WHITE)
+        if(board[i+1][j].type == TYPE2)
         {
-          for(k = i+1; k < SIZE; k++)
-          {
-            if(board[k][j].type == NONE) {
+          k = i+1;
+          while (k < SIZE && board[k][j].type != TYPE) {
+            if (board[k][j].type == NONE) {
               insertMoves(startPtr, k, j);
+              count++;
               break;
             }
+            k++;
           }
         }
-
         //checking possible moves UPWARDS
-        if(board[i-1][j].type == WHITE)
+        if(board[i-1][j].type == TYPE2)
         {
-          for(k = i-1; k >= 0; k--)
-          {
-            if(board[k][j].type == NONE) {
+          k = i-1;
+          while (k >= 0 && board[k][j].type != TYPE) {
+            if (board[k][j].type == NONE) {
               insertMoves(startPtr, k, j);
+              count++;
               break;
             }
+            k--;
           }
         }
-
         //checking possible moves RIGHT-DOWN DIAGONAL
-        if(board[i+1][j+1].type == WHITE)
+        if(board[i+1][j+1].type == TYPE2)
         {
-          for(k = i+1, l = j+1; k < SIZE || l < SIZE; k++, l++)
-          {
-            if(board[k][l].type == NONE) {
+          k = i+1;
+          l = j+1;
+          while (k < SIZE && l < SIZE && board[k][l].type != TYPE) {
+            if (board[k][l].type == NONE) {
               insertMoves(startPtr, k, l);
+              count++;
               break;
             }
+            k++;
+            l++;
           }
         }
-
         //checking possible moves LEFT-DOWN DIAGONAL
-        if(board[i+1][j-1].type == WHITE)
+        if(board[i+1][j-1].type == TYPE2)
         {
-          for(k = i+1, l = j-1; k < SIZE || l >= 0; k++, l--)
-          {
-            if(board[k][l].type == NONE) {
+          k = i+1;
+          l = j-1;
+          while (k < SIZE && l >= 0 && board[k][l].type != TYPE) {
+            if (board[k][l].type == NONE) {
               insertMoves(startPtr, k, l);
+              count++;
               break;
             }
+            k++;
+            l--;
           }
         }
-
         //checking possible moves RIGHT-UP DIAGONAL
-        if(board[i-1][j+1].type == WHITE)
+        if(board[i-1][j+1].type == TYPE2)
         {
-          for(k = i-1, l = j+1; k >= 0 || l < SIZE; k--, l++)
-          {
-            if(board[k][l].type == NONE) {
+          k = i-1;
+          l = j+1;
+          while (k >= 0 && l < SIZE && board[k][l].type != TYPE) {
+            if (board[k][l].type == NONE) {
               insertMoves(startPtr, k, l);
+              count++;
               break;
             }
+            k--;
+            l++;
           }
         }
-
         //checking possible moves LEFT-UP DIAGONAL
-        if(board[i-1][j-1].type == WHITE)
+        if(board[i-1][j-1].type == TYPE2)
         {
-          for(k = i-1, l = j-1; k >= 0 || l >= 0; k--, l--)
-          {
-            if(board[k][l].type == NONE) {
+          k = i-1;
+          l = j-1;
+          while (k >= 0 && l >= 0 && board[k][l].type != TYPE) {
+            if (board[k][l].type == NONE) {
               insertMoves(startPtr, k, l);
+              count++;
               break;
             }
+            k--;
+            l--;
           }
         }
       }
     }
   }
+  return count;
 }
 
 //change the colours of other disks once a move is made
