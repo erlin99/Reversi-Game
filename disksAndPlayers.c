@@ -131,6 +131,96 @@ void printBoard(disk board[SIZE][SIZE])
 
 void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
 {
+  ChoicesPtr startPtr = NULL; //pointer to keep track of linked list
+  ChoicesPtr temp;
+
+  player *blackPlayer;
+  player *whitePlayer;
+
+  int choice, i, r, c, count;
+  if (player1->type == BLACK) {
+    blackPlayer = player1;
+    whitePlayer = player2;
+  }
+  else {
+    blackPlayer = player2;
+    whitePlayer = player1;
+  }
+
+  //while there is still space on the board
+  while (player1->points + player2->points != 64)
+  {
+    //player with black disks moves
+    count = checkMoves(board, &startPtr, blackPlayer->type);
+    //if there are no more possible moves, end game
+    if (count == 0) {
+      printf("\nNO MORE POSSIBLE MOVES!  END OF GAME.\n");
+      break;
+    }
+    else {
+      removeDup(&startPtr);
+      printMoves(startPtr, blackPlayer->name);
+      printf("\n?  ");
+      scanf("%d", &choice); //scan user's choice
+      //while loop to make sure of valid input from user
+      while (choice > count || choice <= 0) {
+        printf("Please enter a valid INPUT\n");
+        printf("? ");
+        scanf("%d", &choice);
+      }
+      //find choice in the linked list and extract values for row and column
+      for (i = 0; i < choice; i++)
+      {
+        r = startPtr->choice.row;
+        c = startPtr->choice.col;
+        startPtr = startPtr->next;
+      }
+      colourChange(r, c, board, blackPlayer, whitePlayer);
+      printBoardAndPoints(board, player1, player2);
+      //delete all elements in linked list (free the space)
+      while (startPtr != NULL)
+      {
+        temp = startPtr;
+        startPtr = temp->next;
+        free(temp);
+      }
+    }
+    //player with white disks moves
+    count = checkMoves(board, &startPtr, whitePlayer->type);
+    //if no more possbile moves, end game
+    if (count == 0) {
+      printf("\nNO MORE POSSIBLE MOVES!  END OF GAME.\n");
+      break;
+    }
+    else {
+      removeDup(&startPtr);
+      printMoves(startPtr, whitePlayer->name);
+      printf("\n?  ");
+      scanf("%d", &choice); //scan user's choice
+      //while loop to make sure of valid input from user
+      while (choice > count || choice <= 0) {
+        printf("Please enter a valid INPUT\n");
+        printf("? ");
+        scanf("%d", &choice);
+      }
+      //find choice in the linked list and extract values for row and column
+      for (i = 0; i < choice; i++)
+      {
+        r = startPtr->choice.row;
+        c = startPtr->choice.col;
+        startPtr = startPtr->next;
+      }
+      colourChange(r, c, board, whitePlayer, blackPlayer);
+      printBoardAndPoints(board, player1, player2);
+      //delete all elements in linked list (free the space)
+      while (startPtr != NULL)
+      {
+        temp = startPtr;
+        startPtr = temp->next;
+        free(temp);
+      }
+    }
+  }
 }
 
 //print final result to terminal and to text file
@@ -499,7 +589,7 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
       }
     }
   }
-  
+
 }
 
 //insert possible moves into a linked list
