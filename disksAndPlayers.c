@@ -670,5 +670,3 @@ void removeDup(ChoicesPtr *sPtr)
     currentPtr = currentPtr->next;
   }
 }
-
-
