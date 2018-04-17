@@ -1,3 +1,8 @@
+/*COMP10050		Assignment 3	 Written by: Er Lin & Dylan Garrett
+Dylan Garrett - 17375763
+Er Lin - 17328173
+Program that simulates the Othello/Reversi Game*/
+
 #ifndef DISKSANDPLAYERS_H_
 #define DISKSANDPLAYERS_H_
 

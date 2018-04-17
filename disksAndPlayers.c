@@ -1,3 +1,8 @@
+/*COMP10050		Assignment 3	 Written by: Er Lin & Dylan Garrett
+Dylan Garrett - 17375763
+Er Lin - 17328173
+Program that simulates the Othello/Reversi Game*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
