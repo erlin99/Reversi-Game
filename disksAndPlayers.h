@@ -42,8 +42,8 @@ void initializePlayers(player *player1, player *player2);
 //initiliaze board with the start position
 void initializeBoard(disk board[SIZE][SIZE], player player1, player player2);
 
-//print current status of board
-void printBoard(disk board[SIZE][SIZE]);
+//print the board and the current points
+void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player2);
 
 //game logic
 void playGame(player *player1, player *player2, disk board[SIZE][SIZE]);
@@ -65,8 +65,5 @@ void removeDup(ChoicesPtr *sPtr);
 
 //change other disks colors once a move is made
 void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, player *playerOther);
-
-//print the board and the current points
-void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player2)
 
 #endif

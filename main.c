@@ -20,7 +20,7 @@ int main(void)
 
   initializeBoard(board, player1, player2);
 
-  printBoard(board);
+  printBoardAndPoints(board, &player1, &player2);
 
   playGame(&player1, &player2, board);//game logic
 

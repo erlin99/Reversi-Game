@@ -110,9 +110,8 @@ void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player
     whitePlayer = player1;
   }
 
-  blackPlayer -> points = 0
-  whitePlayer -> points = 0
-
+  blackPlayer -> points = 0;
+  whitePlayer -> points = 0;
 
   printf("\n    ");
 
@@ -149,7 +148,6 @@ void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player
   printf("\n\n%s --> %d points.\n", player1->name, player1->points);
   printf("%s --> %d points.", player2->name, player2->points);
 }
-
 
 void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
 {
