@@ -39,10 +39,10 @@ typedef Choices *ChoicesPtr;
 //initialize players with names and points
 void initializePlayers(player *player1, player *player2);
 
-//initiliaze board with the start position
+//initiliaze board with the starting positions
 void initializeBoard(disk board[SIZE][SIZE], player player1, player player2);
 
-//print the board and the current points
+//print current status of board and points
 void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player2);
 
 //game logic
@@ -51,7 +51,7 @@ void playGame(player *player1, player *player2, disk board[SIZE][SIZE]);
 //display final result on terminal and to text file
 void finalResult(player *player1, player *player2);
 
-//insert possible moves to linked list
+//insert possible moves into a linked list
 void insertMoves(ChoicesPtr *sPtr, int row, int column);
 
 //display on terminal the possible moves stored in linked list
@@ -63,7 +63,7 @@ int checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr, int TYPE);
 //check for duplicated possible moves and delete
 void removeDup(ChoicesPtr *sPtr);
 
-//change other disks colors once a move is made
-void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, player *playerOther);
+//change the colours of other disks once a move is made
+void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving);
 
 #endif

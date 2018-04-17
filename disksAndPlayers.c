@@ -5,26 +5,27 @@
 
 #include "disksAndPlayers.h"
 
+//initialize players with names and points
 void initializePlayers(player *player1, player *player2)
 {
   int nameSize;
   int colorChoice;
 
-  //ask player one for the name and replace \n with \0
+  //ask player one for the name and replace \n with \0 and convert first letter to capital letter
   printf("What is the name of player one?\n");
   fgets(player1->name, 20, stdin);
   nameSize = strlen(player1->name);
   player1->name[nameSize -1] = '\0';
   player1->name[0] = toupper(player1->name[0]);
 
-  //ask player 2 for the name and replace \n with \0
+  //ask player two for the name and replace \n with \0 and convert first letter to capital letter
   printf("What is the name of player two?\n");
   fgets(player2->name, 20, stdin);
   nameSize = strlen(player2->name);
   player2->name[nameSize - 1] = '\0';
   player2->name[0] = toupper(player2->name[0]);
 
-  //ask one of the player to choose a colour
+  //ask first player to choose a colour
   do {
     printf("%s, what colour would you like to be?(WHITE = 0, BLACk = 1)\n", player1->name);
     scanf("%d", &colorChoice);
@@ -36,22 +37,20 @@ void initializePlayers(player *player1, player *player2)
     player1->type = BLACK;
     player2->type = WHITE;
 
-    printf("\n%s --> BLACK (1)\n", player1->name);
-    printf("%s --> WHITE (0)\n", player2->name);
+    printf("\n%s --> BLACK (@)\n", player1->name);
+    printf("%s --> WHITE (O)\n", player2->name);
   }
   else
   {
     player1->type = WHITE;
     player2->type = BLACK;
 
-    printf("\n%s --> WHITE (0)\n", player1->name);
-    printf("%s --> BLACK (1)\n", player2->name);
+    printf("\n%s --> WHITE (@)\n", player1->name);
+    printf("%s --> BLACK (O)\n", player2->name);
   }
-  //assign the points to each player:
-  player1->points = 2;
-  player2->points = 2;
 }
 
+//initiliaze board with the starting positions
 void initializeBoard(disk board [SIZE][SIZE], player player1, player player2)
 {
   int i, j;
@@ -93,14 +92,14 @@ void initializeBoard(disk board [SIZE][SIZE], player player1, player player2)
   }
 }
 
-//prints the board and the current points of the players
+//print current status of board and points
 void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player2)
 {
   int i, j;
-
+  //initiliaze pointers for the 2 disk types
   player *blackPlayer;
   player *whitePlayer;
-
+  //assign pointers depending on each player's disk type
   if (player1->type == BLACK) {
     blackPlayer = player1;
     whitePlayer = player2;
@@ -123,7 +122,7 @@ void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player
   {
     printf("\n%d | ", i+1); //print numbers on the y axis
 
-    for(j=0;j<SIZE; j++) //depending on the type of the cell print 1, 0 or x
+    for(j=0;j<SIZE; j++) //depending on the type of the cell print @, O or x
     {
       switch(board[i][j].type)
       {
@@ -143,21 +142,22 @@ void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player
       }
     }
   }
-
-
+  //display points from each player
   printf("\n\n%s --> %d points.\n", player1->name, player1->points);
   printf("%s --> %d points.", player2->name, player2->points);
 }
 
+//game logic
 void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
 {
   ChoicesPtr startPtr = NULL; //pointer to keep track of linked list
   ChoicesPtr temp;
+  int choice, i, r, c, count;
 
+  //initiliaze pointers for the 2 disk types
   player *blackPlayer;
   player *whitePlayer;
-
-  int choice, i, r, c, count;
+  //assign pointers depending on each player's disk type
   if (player1->type == BLACK) {
     blackPlayer = player1;
     whitePlayer = player2;
@@ -195,7 +195,7 @@ void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
         c = startPtr->choice.col;
         startPtr = startPtr->next;
       }
-      colourChange(r, c, board, blackPlayer, whitePlayer);
+      colourChange(r, c, board, blackPlayer);
       printBoardAndPoints(board, player1, player2);
       //delete all elements in linked list (free the space)
       while (startPtr != NULL)
@@ -230,7 +230,7 @@ void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
         c = startPtr->choice.col;
         startPtr = startPtr->next;
       }
-      colourChange(r, c, board, whitePlayer, blackPlayer);
+      colourChange(r, c, board, whitePlayer);
       printBoardAndPoints(board, player1, player2);
       //delete all elements in linked list (free the space)
       while (startPtr != NULL)
@@ -243,53 +243,49 @@ void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
   }
 }
 
-//print final result to terminal and to text file
+//display final result on terminal and to text file
 void finalResult(player *player1, player *player2)
 {
   FILE *filePtr;//pointer to rext file
 
-  //if file cannot be created, print warning message and results to terminal
+  //print results to terminal
+  printf("\n%s --> %d points.\n", player1->name, player1->points);
+  printf("%s --> %d points.\n", player2->name, player2->points);
+
+  //if player 1 has more points
+  if (player1->points > player2->points) {
+    printf("The WINNER is: %s\n", player1->name);
+  }
+  //if player 2 has more points
+  else if (player2->points > player1->points) {
+    printf("The WINNER is: %s\n", player2->name);
+  }
+  //in the case of a tie
+  else {
+    printf("It's a DRAW!\n");
+  }
+
+  //if file cannot be created, print warning message
   if ((filePtr = fopen("result.txt", "w")) == NULL)
   {
     printf("Text file to store result couldn't be created.\n");
-
-    printf("\n%s --> %d points.\n", player1->name, player1->points);
-    printf("%s --> %d points.\n", player2->name, player2->points);
-
-    //if player 1 has more points
-    if (player1->points > player2->points) {
-      printf("The WINNER is: %s\n", player1->name);
-    }
-    //if player 2 has more points
-    else if (player2->points > player1->points) {
-      printf("The WINNER is: %s\n", player2->name);
-    }
-    //in the case of a tie
-    else {
-      printf("It's a DRAW!\n");
-    }
   }
-  else
+  else//if file is succesfully created, enter results into the file
   {
-    printf("\n%s --> %d points.\n", player1->name, player1->points);
     fprintf(filePtr, "Player 1: %s. Points: %d.\n", player1->name, player1->points);
 
-    printf("%s --> %d points.\n", player2->name, player2->points);
     fprintf(filePtr, "Player 2: %s. Points: %d.\n", player2->name, player2->points);
 
     //if player 1 has more points
     if (player1->points > player2->points) {
-      printf("The WINNER is: %s\n", player1->name);
       fprintf(filePtr, "\nThe WINNER is: %s\n", player1->name);
     }
     //if player 2 has more points
     else if (player2->points > player1->points) {
-      printf("The WINNER is: %s\n", player2->name);
       fprintf(filePtr, "\nThe WINNER is: %s\n", player2->name);
     }
     //in the case of a tie
     else {
-      printf("It's a DRAW!\n");
       fprintf(filePtr, "\nIt's a DRAW\n");
     }
   }
@@ -297,10 +293,12 @@ void finalResult(player *player1, player *player2)
   fclose(filePtr); //close file
 }
 
+//compute possible moves and insert them to linked list
 int checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr, int TYPE)
 {
   int TYPE2;
   int count = 0;
+  //assign variables depending on the player moving
   if (TYPE == BLACK) {
     TYPE2 = WHITE;
   }
@@ -435,10 +433,11 @@ int checkMoves(disk board[SIZE][SIZE], ChoicesPtr *startPtr, int TYPE)
 }
 
 //change the colours of other disks once a move is made
-void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, player *playerOther)
+void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving)
 {
   int TYPE = playerMoving->type;
   int TYPE2;
+  //assign variables depending on player moving
   if (TYPE == BLACK) {
     TYPE2 = WHITE;
   }
@@ -454,11 +453,12 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
   {
     for (j = y+1; j < SIZE; j++)
     {
+      //if there a closing disk on other side:
       if (board[x][j].type == TYPE) {
         l = y+1;
         while(board[x][l].type != TYPE && l < SIZE)
         {
-          board[x][l].type = TYPE;
+          board[x][l].type = TYPE; //replace disks
           l++;
         }
         break;
@@ -470,12 +470,13 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
   {
     for (j = y-1; j >= 0; j--)
     {
+      //if there a closing disk on other side:
       if (board[x][j].type == TYPE)
       {
         l = y-1;
         while(board[x][l].type != TYPE && l >= 0)
         {
-          board[x][l].type = TYPE;
+          board[x][l].type = TYPE;//replace disks
           l--;
         }
         break;
@@ -487,12 +488,13 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
   {
     for (i = x+1; i < SIZE; i++)
     {
+      //if there a closing disk on other side:
       if (board[i][y].type == TYPE)
       {
         k = x+1;
         while(board[k][y].type != TYPE && l < SIZE)
         {
-          board[k][y].type = TYPE;
+          board[k][y].type = TYPE;//replace disks
           k++;
         }
         break;
@@ -504,12 +506,13 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
   {
     for (i = x-1; i >= 0; i--)
     {
+      //if there a closing disk on other side:
       if (board[i][y].type == TYPE)
       {
         k = x-1;
         while(board[k][y].type != TYPE &&  k >= 0)
         {
-          board[k][y].type = TYPE;
+          board[k][y].type = TYPE;//replace disks
           k--;
         }
         break;
@@ -521,13 +524,14 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
   {
     for (i = x+1, j = y+1; i < SIZE && j < SIZE; i++, j++)
     {
+      //if there a closing disk on other side:
       if (board[i][j].type == TYPE)
       {
         k = x+1;
         l = y+1;
         while(board[k][l].type != TYPE && k < SIZE && l < SIZE)
         {
-          board[k][l].type = TYPE;
+          board[k][l].type = TYPE;//replace disks
           k++;
           l++;
         }
@@ -540,13 +544,14 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
   {
     for (i = x-1, j = y+1; i >= 0 && j < SIZE; i--, j++)
     {
+      //if there a closing disk on other side:
       if (board[i][j].type == TYPE)
       {
         k = x-1;
         l = y+1;
         while(board[k][l].type != TYPE && k >= 0 && l < SIZE)
         {
-          board[k][l].type = TYPE;
+          board[k][l].type = TYPE;//replace disks
           k--;
           l++;
         }
@@ -559,13 +564,14 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
   {
     for (i = x+1, j = y-1; i < SIZE && j >= 0; i++, j--)
     {
+      //if there a closing disk on other side:
       if (board[i][j].type == TYPE)
       {
         k = x+1;
         l = y-1;
         while(board[k][l].type != TYPE && k < SIZE && l >= 0)
         {
-          board[k][l].type = TYPE;
+          board[k][l].type = TYPE;//replace disks
           k++;
           l--;
         }
@@ -578,13 +584,14 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
   {
     for (i = x-1, j = y-1; i >= 0 && j >= 0; i--, j--)
     {
+      //if there a closing disk on other side:
       if (board[i][j].type == TYPE)
       {
         k = x-1;
         l = y-1;
         while(board[k][l].type != TYPE && k >= 0 && l >= 0)
         {
-          board[k][l].type = TYPE;
+          board[k][l].type = TYPE;//replace disks
           k--;
           l--;
         }
@@ -599,6 +606,7 @@ void insertMoves(ChoicesPtr *sPtr, int row, int column)
 {
   ChoicesPtr newPtr = malloc(sizeof(Choices));//allocate memory
 
+  //enter values into the new node
   newPtr->choice.row = row;
   newPtr->choice.col = column;
 
@@ -625,7 +633,7 @@ void insertMoves(ChoicesPtr *sPtr, int row, int column)
   }
 }
 
-//display possible moves onto terminal
+//display on terminal the possible moves stored in linked list
 void printMoves(ChoicesPtr currentPtr, char name[20])
 {
   printf("\n%s, choose your next move (row, col):\n", name);
@@ -640,7 +648,7 @@ void printMoves(ChoicesPtr currentPtr, char name[20])
   }
 }
 
-//remove duplicates moves from the linked list
+//check for duplicated possible moves and delete
 void removeDup(ChoicesPtr *sPtr)
 {
   ChoicesPtr currentPtr, nextPtr, duplicate;
