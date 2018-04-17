@@ -66,4 +66,7 @@ void removeDup(ChoicesPtr *sPtr);
 //change other disks colors once a move is made
 void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, player *playerOther);
 
+//print the board and the current points
+void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player2)
+
 #endif

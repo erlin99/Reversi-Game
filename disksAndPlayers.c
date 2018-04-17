@@ -499,6 +499,7 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
       }
     }
   }
+  
 }
 
 //insert possible moves into a linked list
@@ -577,13 +578,40 @@ void removeDup(ChoicesPtr *sPtr)
   }
 }
 
-//implement the following to the changeColour function
-//this deletes all elements in linked list for following set of moves
-ChoicesPtr temp;
-
-while (startPtr != NULL)
+//prints the board and the current points of the players
+void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player2)
 {
-  temp = startPtr;
-  startPtr = temp->next;
-  free(temp);
+  int i, j;
+  j = 0;
+
+  printf("\n    ");
+
+  for(i = 0; i < SIZE; i++)
+  {
+    printf("%d   ",i+1);//print numbers on the x axis
+  }
+  for(i = 0; i < SIZE; i++)
+  {
+    printf("\n%d | ", i+1); //print numbers on the y axis
+
+    for(j=0;j<SIZE; j++) //depending on the type of the cell print 1, 0 or x
+    {
+      switch(board[i][j].type)
+      {
+        case BLACK:
+          printf("@ | ");
+          break;
+        case WHITE:
+          printf("O | ");
+          break;
+        case NONE:
+          printf("x | ");
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  printf("\n\n%s --> %d points.\n", player1->name, player1->points);
+  printf("%s --> %d points.", player2->name, player2->points);
 }
