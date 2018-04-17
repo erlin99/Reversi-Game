@@ -93,7 +93,8 @@ void initializeBoard(disk board [SIZE][SIZE], player player1, player player2)
   }
 }
 
-void printBoard(disk board[SIZE][SIZE])
+//prints the board and the current points of the players
+void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player2)
 {
   int i, j;
   j = 0;
@@ -113,10 +114,10 @@ void printBoard(disk board[SIZE][SIZE])
       switch(board[i][j].type)
       {
         case BLACK:
-          printf("1 | ");
+          printf("@ | ");
           break;
         case WHITE:
-          printf("0 | ");
+          printf("O | ");
           break;
         case NONE:
           printf("x | ");
@@ -126,8 +127,10 @@ void printBoard(disk board[SIZE][SIZE])
       }
     }
   }
-  printf("\n");
+  printf("\n\n%s --> %d points.\n", player1->name, player1->points);
+  printf("%s --> %d points.", player2->name, player2->points);
 }
+
 
 void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
 {
@@ -668,40 +671,4 @@ void removeDup(ChoicesPtr *sPtr)
   }
 }
 
-//prints the board and the current points of the players
-void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player2)
-{
-  int i, j;
-  j = 0;
 
-  printf("\n    ");
-
-  for(i = 0; i < SIZE; i++)
-  {
-    printf("%d   ",i+1);//print numbers on the x axis
-  }
-  for(i = 0; i < SIZE; i++)
-  {
-    printf("\n%d | ", i+1); //print numbers on the y axis
-
-    for(j=0;j<SIZE; j++) //depending on the type of the cell print 1, 0 or x
-    {
-      switch(board[i][j].type)
-      {
-        case BLACK:
-          printf("@ | ");
-          break;
-        case WHITE:
-          printf("O | ");
-          break;
-        case NONE:
-          printf("x | ");
-          break;
-        default:
-          break;
-      }
-    }
-  }
-  printf("\n\n%s --> %d points.\n", player1->name, player1->points);
-  printf("%s --> %d points.", player2->name, player2->points);
-}
