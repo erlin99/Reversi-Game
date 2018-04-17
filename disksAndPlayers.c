@@ -97,7 +97,22 @@ void initializeBoard(disk board [SIZE][SIZE], player player1, player player2)
 void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player2)
 {
   int i, j;
-  j = 0;
+
+  player *blackPlayer;
+  player *whitePlayer;
+
+  if (player1->type == BLACK) {
+    blackPlayer = player1;
+    whitePlayer = player2;
+  }
+  else {
+    blackPlayer = player2;
+    whitePlayer = player1;
+  }
+
+  blackPlayer -> points = 0
+  whitePlayer -> points = 0
+
 
   printf("\n    ");
 
@@ -115,9 +130,11 @@ void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player
       {
         case BLACK:
           printf("@ | ");
+          blackPlayer -> points++;
           break;
         case WHITE:
           printf("O | ");
+          whitePlayer -> points++;
           break;
         case NONE:
           printf("x | ");
@@ -127,6 +144,8 @@ void printBoardAndPoints(disk board[SIZE][SIZE], player *player1, player *player
       }
     }
   }
+
+
   printf("\n\n%s --> %d points.\n", player1->name, player1->points);
   printf("%s --> %d points.", player2->name, player2->points);
 }
@@ -430,7 +449,6 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
   }
 
   board[x][y].type = TYPE;//change colour of selected position
-  playerMoving->points++;
 
   int i, j, k, l;
   //change colours going RIGHT
@@ -444,8 +462,6 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
         {
           board[x][l].type = TYPE;
           l++;
-          playerMoving->points++; //add points to player
-          playerOther->points--; //subtract points to opponent
         }
         break;
       }
@@ -463,8 +479,6 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
         {
           board[x][l].type = TYPE;
           l--;
-          playerMoving->points++; //add points to player
-          playerOther->points--; //subtract points to opponent
         }
         break;
       }
@@ -482,8 +496,6 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
         {
           board[k][y].type = TYPE;
           k++;
-          playerMoving->points++; //add points to player
-          playerOther->points--; //subtract points to opponent
         }
         break;
       }
@@ -501,8 +513,6 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
         {
           board[k][y].type = TYPE;
           k--;
-          playerMoving->points++; //add points to player
-          playerOther->points--; //subtract points to opponent
         }
         break;
       }
@@ -522,8 +532,6 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
           board[k][l].type = TYPE;
           k++;
           l++;
-          playerMoving->points++; //add points to player
-          playerOther->points--; //subtract points to opponent
         }
         break;
       }
@@ -543,8 +551,6 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
           board[k][l].type = TYPE;
           k--;
           l++;
-          playerMoving->points++; //add points to player
-          playerOther->points--; //subtract points to opponent
         }
         break;
       }
@@ -564,8 +570,6 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
           board[k][l].type = TYPE;
           k++;
           l--;
-          playerMoving->points++; //add points to player
-          playerOther->points--; //subtract points to opponent
         }
         break;
       }
@@ -585,14 +589,11 @@ void colourChange(int x, int y, disk board[SIZE][SIZE], player *playerMoving, pl
           board[k][l].type = TYPE;
           k--;
           l--;
-          playerMoving->points++; //add points to player
-          playerOther->points--; //subtract points to opponent
         }
         break;
       }
     }
   }
-
 }
 
 //insert possible moves into a linked list
