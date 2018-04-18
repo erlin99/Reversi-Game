@@ -1,0 +1,51 @@
+COMP10050		Assignment 3	 Written by: Er Lin & Dylan Garrett
+Dylan Garrett - 17375763
+Er Lin - 17328173
+Program that simulates the Othello/Reversi Game. PROJECT REPORT.
+
+We both divided the work evenly.
+We worked together to visualise the idea for simulating the reversi game and we
+started implementing it.
+WE decided to concentrate our work in what we knew better so:
+Dylan concentrated his work more in functions that had to do with board implementation and
+Er concentrated on implementing the function that had to do with the linked list and
+external file management.
+Then we worked together to finish the rest of the functions.
+
+To the header file we added an extra struct to handle the linked list.
+
+Our final project consists of 10 functions including the 3 given on moodle.
+1. initialisePlayers: we altered a lot this function from the original to let the user's
+choose their desired disk type.
+
+  This cause a bit of issue because we had to take into account that player1 and player2
+would not always have the same disk type.
+
+2. initialiseBoard: is the original given in moodle
+
+3. printBoardAndPoints: we altered this function to apart from printing the board onto the
+terminal, it would also keep track of each player's points and print them after the table.
+
+4. playGame: this function is the main one. It calls the different functions in order
+to successfully implement the game. As well as scanning the choice from the user and finding
+this choice in the linked list, it also clears the linked list at the end of each turn.
+This function also knows when to end the game, if there are no more moves or if 64 moves
+have been played.
+
+5. finalResult: prints out the final result to the terminal and knows who wins. It also
+creates an external text file and enters the result there as well.
+
+6. checkMoves; it checks all directions for possible moves and then it calls the insertMoves function
+to enter the moves inside the linked list. 
+
+7. colourChange: receives the user's choice of move as parameter and then changes the
+opponent disks on the board. This functions checks in all directions and if there is
+a opponent disk next to it and is closed with the movers disk, it changes the colours.
+
+8. insertMoves: takes as input the coordinates of each possible move (one at a time) and
+enters them in increasing order of row into a linked list
+
+9. printMoves: displays the possible moves stored in the linked list in the form of (row, column)
+
+10. removeDup: we also included this function to make sure that the game doesn't display
+two same positions as two possible moves.
