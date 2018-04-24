@@ -252,22 +252,18 @@ void playGame(player *player1, player *player2, disk board[SIZE][SIZE])
 void finalResult(player *player1, player *player2)
 {
   FILE *filePtr;//pointer to rext file
-
-  //print results to terminal
-  printf("\n%s --> %d points.\n", player1->name, player1->points);
-  printf("%s --> %d points.\n", player2->name, player2->points);
-
+    
   //if player 1 has more points
   if (player1->points > player2->points) {
-    printf("The WINNER is: %s\n", player1->name);
+    printf("\n\nThe WINNER is: %s\n", player1->name);
   }
   //if player 2 has more points
   else if (player2->points > player1->points) {
-    printf("The WINNER is: %s\n", player2->name);
+    printf("\n\nThe WINNER is: %s\n", player2->name);
   }
   //in the case of a tie
   else {
-    printf("It's a DRAW!\n");
+    printf("\n\nIt's a DRAW!\n");
   }
 
   //if file cannot be created, print warning message
